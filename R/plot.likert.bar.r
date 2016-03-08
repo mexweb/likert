@@ -142,8 +142,8 @@ likert.bar.plot <- function(l,
 					results <- results[-rows.mid,]
 				}
 			}
-			results.low <- results[results$value < 0,]
-			results.high <- results[results$value > 0,]
+			results.low <- results[results$value <= 0,]
+			results.high <- results[results$value >= 0,]
 			p <- ggplot(results, aes(y=value, x=Group, group=variable)) + 
 				geom_hline(yintercept=0) +
 				geom_bar(data=results.low[nrow(results.low):1,], 
@@ -255,8 +255,8 @@ likert.bar.plot <- function(l,
 				results <- results[order(results$order),]
 				results$order <- NULL
 			}
-			results.low <- results[results$value < 0,]
-			results.high <- results[results$value > 0,]
+			results.low <- results[results$value <= 0,]
+			results.high <- results[results$value >= 0,]
 			p <- ggplot(results, aes(y=value, x=Item, group=Item)) + 
 				geom_hline(yintercept=0) +
 				geom_bar(data=results.low[nrow(results.low):1,], 

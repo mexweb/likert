@@ -76,7 +76,7 @@ likert <- function(items, summary,
 		if(!all(sapply(items, function(x) 'factor' %in% class(x)))) {
 			warning('items parameter contains non-factors. Will convert to factors')
 			for(i in 1:ncol(items)) {
-				items[,i] <- factor(items[,i], levels=1:nlevels)
+				items[[i]] <- factor(items[[i]], levels=1:nlevels)
 			}
 		}
 		if(!all(sapply(items, function(x) { length(levels(x)) }) == nlevels)) {
@@ -115,7 +115,7 @@ likert <- function(items, summary,
 				Response = rep(1:nlevels, length(unique(grouping)))
 				)
 			for(i in 1:ncol(items)) {
-				t <- as.data.frame(table(grouping, items[,i]))
+				t <- as.data.frame(table(grouping, items[[i]]))
 				t <- reshape2::dcast(t, Var2 ~ grouping, value.var='Freq', add.missing=TRUE)
 				t <- cbind(Response=t[,1], 
 						   apply(t[,2:ncol(t)], 2, FUN=function(x) { x / sum(x) * 100 } )
@@ -130,7 +130,7 @@ likert <- function(items, summary,
 			names(results)[3:ncol(results)] <- names(items)
 			
 			results$Response <- factor(results$Response, levels=1:nlevels, 
-									  labels=levels(items[,i]))
+									  labels=levels(items[[i]]))
 			results <- reshape2::melt(results, id=c('Group', 'Response'))
 			results <- reshape2::dcast(results, Group + variable ~ Response)
 			results <- as.data.frame(results)
@@ -147,10 +147,10 @@ likert <- function(items, summary,
 			means <- numeric()
 			sds <- numeric()
 			for(i in 1:ncol(items)) {
-				t <- table(items[,i])
+				t <- table(items[[i]])
 				t <- (t / sum(t) * 100)
-				means[i] <- mean(as.numeric(items[,i]), na.rm=TRUE)
-				sds[i] <- sd(as.numeric(items[,i]), na.rm=TRUE)
+				means[i] <- mean(as.numeric(items[[i]]), na.rm=TRUE)
+				sds[i] <- sd(as.numeric(items[[i]]), na.rm=TRUE)
 				results <- cbind(results, as.data.frame(t)[,2])
 				#results <- merge(results, as.data.frame(t),
 				#				 by.x='Response', by.y='Var1', all.x=TRUE)

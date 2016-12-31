@@ -15,7 +15,7 @@ VignetteBuilder: utils
 Depends:
     R (>= 3.0),ggplot2,xtable
 Imports:
-    psych,reshape2,gridExtra,grid,plyr
+    psych,reshape2,gridExtra,grid,plyr,mnormt
 Suggests:
     devtools,shiny
 RoxygenNote: 5.0.1
